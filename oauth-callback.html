@@ -1,0 +1,35 @@
+<!doctype html>
+<!--
+  © 2026 Jhamir Chero · BIM-GIS. Todos los derechos reservados.
+  Prohibida su copia, reproducción o distribución sin autorización del autor.
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="Jhamir Chero · BIM-GIS">
+<meta name="copyright" content="© 2026 Jhamir Chero. Todos los derechos reservados.">
+<title>Iniciando sesión…</title>
+<script>
+  function loadHandler() {
+    if (opener) {
+      if (location.hash) {
+        if (typeof opener.require === "function" && opener.require("esri/kernel")) {
+          opener.require("esri/kernel").id.setOAuthResponseHash(location.hash);
+        } else {
+          opener.dispatchEvent(new CustomEvent("arcgis:auth:hash", { detail: location.hash }));
+        }
+        close();
+      } else if (location.search) {
+        opener.dispatchEvent(new CustomEvent("arcgis:auth:location:search", { detail: location.search }));
+        close();
+      }
+    } else {
+      close();
+    }
+  }
+</script>
+</head>
+<body onload="loadHandler();">
+<p style="font-family:system-ui,sans-serif">Completando el inicio de sesión…</p>
+</body>
+</html>
